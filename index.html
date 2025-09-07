@@ -96,23 +96,21 @@
     .gold-table td {
       border: 1px solid rgba(255,255,255,0.2);
       text-align: center;
-      padding: 5px;
+       height: calc(100% / 6);
+  padding: 0;
+  line-height: 1.2;
     }
-    /* Chia đều chiều cao: 1 hàng tiêu đề + 5 sản phẩm */
-    .gold-table th, .gold-table td {
-      height: calc(100% / 6);
-    }
+  
     .gold-table th {
       background: linear-gradient(135deg, #003cff, #007bff);
       color: #fff;
-       font-size: 5vh;      /* chữ tiêu đề ~5% chiều cao màn hình */
-  padding: 20px;
+     font-size: min(5vh, 3vw); 
     }
     .gold-table td {
       background: linear-gradient(135deg,#e2d818,#FFF200);
-      font-size: 4.5vh;    /* chữ nội dung ~4.5% chiều cao màn hình */
+     font-size: min(4.5vh, 2.8vw);  /* chữ nội dung ~4.5% chiều cao màn hình */
   font-weight: 800;
-  padding: 20px;
+ 
     }
     .gold-table td:first-child { color: #FF0000; }
     .gold-table td:not(:first-child) { color: #FF0000; }
