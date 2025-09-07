@@ -9,26 +9,39 @@
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Oswald:wght@200..700&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
     <style>
         /* --- Cài đặt chung & Reset --- */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+       * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
         body {
-            background: linear-gradient(135deg, #0f0f23, #1a1a3a);
-            color: white;
-            height: 100vh;
+            background: black;
+            color: black;
+           
             overflow: hidden;
             padding: 8px;
             font-family: 'Open Sans', sans-serif;
             cursor: none;
+              height: auto;              /* bỏ ép height */
+    min-height: 100vh;         /* chỉ đảm bảo cao tối thiểu */
+    overflow-x: hidden;        /* tránh kéo ngang */
         }
-
+/* --- Wrapper giữ đúng tỷ lệ TV --- */
+.wrapper {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
         .container {
+             aspect-ratio: 16/9;  /* giữ đúng tỷ lệ ngang 16:9 */
+             width: 100%;
+    height: auto;
             display: flex;
             flex-direction: column;
-            height: 100vh;
+            
             gap: 20px;
         }
 
@@ -37,16 +50,16 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 180px;
-            background: rgba(255, 255, 255, 0.05);
+            min-height: 150px;
+            background: black;
             border-radius: 20px;
             backdrop-filter: blur(10px);
         }
 
         .banner {
-            height: 140px;
+            height: 120px;
             width: auto;
-            max-width: 1400px;
+            max-width: 90%;
             object-fit: contain;
             filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
         }
@@ -56,16 +69,16 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin: 0 30px;
-            padding: 0 40px;
+            margin: 0 20px;
+            padding: 0 30px;
         }
 
         .gold-title {
             color: #0080ff;
-            font-size: 3.5rem;
+            font-size: 3rem;
             font-weight: 900;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-            letter-spacing: 3px;
+            letter-spacing: 2px;
         }
 
         /* --- Đồng hồ số 24h --- */
@@ -78,11 +91,11 @@
         }
 
         .time-display {
-            font-size: 4.5rem;
+            font-size: 3.8rem;
             font-weight: bold;
             color: #f4dc60;
             font-family: 'Roboto Mono', monospace;
-            letter-spacing: 4px;
+            letter-spacing: 3px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
 
@@ -90,20 +103,20 @@
         .main-content {
             flex: 1;
             display: flex;
-            gap: 25px;
+            gap: 20px;
             overflow: hidden;
         }
 
         /* --- Bảng giá vàng --- */
         .gold-section {
-            flex: 3.2;
+            flex: 3;
             display: flex;
             flex-direction: column;
         }
 
         .gold-table-container {
             background: rgba(255, 255, 255, 0.08);
-            border-radius: 20px;
+            border-radius: 15px;
             overflow: hidden;
             flex: 1;
             backdrop-filter: blur(15px);
@@ -116,7 +129,7 @@
             height: 100%;
             border-collapse: separate;
             border-spacing: 0;
-            display: table;
+             display: table;
             table-layout: fixed;
         }
 
@@ -133,15 +146,15 @@
         .gold-table th {
             background: linear-gradient(135deg, #003cff, #0056ff, #007bff);
             color: #ffffff;
-            font-size: 2.8rem;
+            font-size: 2.2rem;
             font-weight: 900;
-            padding: 35px 20px;
+            padding: 20px 15px;
             text-align: center;
             border: 2px solid rgba(255,255,255,0.3);
             position: sticky;
             top: 0;
             z-index: 5;
-            height: 100px;
+            height: 80px;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
             box-sizing: border-box;
         }
@@ -151,13 +164,13 @@
             background: linear-gradient(135deg,#e2d818, #FFF200);
             color: #0080ff;
         
-            font-size: 2.6rem;
+            font-size: 2rem;
             font-weight: 800;
             padding: 20px 15px;
             text-align: center;
             border: 2px solid rgba(255,255,255,0.4);
             box-sizing: border-box;
-            height: 80px;
+            height: 70px;
         }
 
         /* --- Ô giá tiền (các cột còn lại) --- */
@@ -165,13 +178,13 @@
             background: linear-gradient(135deg, #e2d818, #FFF200);
             color: #cc0000;
            
-            font-size: 2.6rem;
+            font-size: 2rem;
             font-weight: 800;
-            padding: 20px 15px;
+            padding: 15px 10px;
             text-align: center;
             border: 2px solid rgba(255,255,255,0.4);
             box-sizing: border-box;
-            height: 80px;
+            height: 70px;
         }
 
         .gold-table tbody tr:nth-child(even) td:first-child {
@@ -184,16 +197,16 @@
 
         /* --- Sidebar: Lịch và thông tin --- */
         .calendar-section {
-            flex: 0.8;
+            flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 15px;
         }
 
         .calendar-container, .info-container {
             background: rgba(255, 255, 255, 0.08);
-            border-radius: 20px;
-            padding: 20px;
+            border-radius: 15px;
+            padding: 15px;
             backdrop-filter: blur(15px);
             border: 3px solid rgba(244, 220, 96, 0.4);
             box-shadow: 0 8px 32px rgba(0,0,0,0.3);
@@ -371,7 +384,7 @@
             }
 
             .gold-title {
-                font-size: 5.0rem;
+                font-size: 4.2rem;
                 letter-spacing: 5px;
             }
 
@@ -465,11 +478,11 @@
             .gold-table th {
                 font-size: 3.0rem;
                 padding: 40px 22px;
-                height: 110px;
+                height: 100px;
             }
 
             .gold-table td {
-                font-size: 2.8rem;
+                font-size: 2.6rem;
                 padding: 22px 18px;
                 height: 85px;
             }
@@ -502,6 +515,7 @@
     </style>
 </head>
 <body>
+    <div class="wrapper">
 <div class="container">
     <!-- Header với banner ở giữa -->
     <div class="header">
@@ -551,7 +565,7 @@
         </div>
     </div>
 </div>
-
+</div>
 <script>
     const SHEET_ID = '1b5u3h4dl1R_qitdExmbDRn8GdPk3jX6skW9XiF_OJWQ';
     const API_KEY = 'AIzaSyABuWz8zGYpfbuV4-Ht2aEqnXEzD9k8FRE';
