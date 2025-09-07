@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Giá Vàng Hôm Nay - TV 55 inch Display</title>
+    <title>DNTN KINH DOANH VÀNG BẠC - NƠI KHUÊ</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Oswald:wght@200..700&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
@@ -22,6 +22,7 @@
             overflow: hidden;
             padding: 8px;
             font-family: 'Open Sans', sans-serif;
+            cursor: none;
         }
 
         .container {
@@ -60,7 +61,7 @@
         }
 
         .gold-title {
-            color: #f4dc60;
+            color: #0080ff;
             font-size: 3.5rem;
             font-weight: 900;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
@@ -69,11 +70,11 @@
 
         /* --- Đồng hồ số 24h --- */
         .digital-clock {
-            background: linear-gradient(135deg, #003cff, #0056ff, #007bff);
-            border: 3px solid #f4dc60;
-            border-radius: 20px;
-            padding: 25px 45px;
-            box-shadow: 0 8px 24px rgba(0, 60, 255, 0.3);
+          
+        
+           
+          
+           
         }
 
         .time-display {
@@ -145,9 +146,10 @@
             box-sizing: border-box;
         }
 
-        .gold-table td {
-            background: rgba(220, 20, 20, 0.9);
-            color: #f4dc60;
+        /* --- Ô tên vàng (cột đầu tiên) --- */
+        .gold-table td:first-child {
+            background: linear-gradient(135deg, #0066cc, #0080ff);
+            color: #ffffff;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
             font-size: 2.6rem;
             font-weight: 800;
@@ -156,17 +158,28 @@
             border: 2px solid rgba(255,255,255,0.4);
             box-sizing: border-box;
             height: 80px;
-            transition: all 0.3s ease;
         }
 
-        .gold-table tbody tr:nth-child(even) td {
-            background: rgba(200, 0, 0, 0.85);
+        /* --- Ô giá tiền (các cột còn lại) --- */
+        .gold-table td:not(:first-child) {
+            background: linear-gradient(135deg, #cc0000, #ff0000);
+            color: #ffffff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            font-size: 2.6rem;
+            font-weight: 800;
+            padding: 20px 15px;
+            text-align: center;
+            border: 2px solid rgba(255,255,255,0.4);
+            box-sizing: border-box;
+            height: 80px;
         }
 
-        .gold-table tbody tr:hover td {
-            background: rgba(255, 50, 50, 0.9);
-            transform: scale(1.02);
-            box-shadow: 0 4px 12px rgba(255, 50, 50, 0.4);
+        .gold-table tbody tr:nth-child(even) td:first-child {
+            background: linear-gradient(135deg, #004499, #0066cc);
+        }
+
+        .gold-table tbody tr:nth-child(even) td:not(:first-child) {
+            background: linear-gradient(135deg, #990000, #cc0000);
         }
 
         /* --- Sidebar: Lịch và thông tin --- */
@@ -230,14 +243,7 @@
             padding: 12px 6px;
             text-align: center;
             border-radius: 8px;
-            transition: all 0.3s ease;
             font-weight: 600;
-            cursor: pointer;
-        }
-
-        .calendar-day:hover {
-            background: rgba(244, 220, 96, 0.2);
-            transform: scale(1.1);
         }
 
         .calendar-day.today {
@@ -481,22 +487,6 @@
             }
         }
 
-        /* --- Hiệu ứng hover và animation --- */
-        .digital-clock:hover {
-            transform: scale(1.05);
-            box-shadow: 0 12px 36px rgba(0, 60, 255, 0.5);
-        }
-
-        .gold-table-container:hover {
-            box-shadow: 0 12px 48px rgba(244, 220, 96, 0.3);
-        }
-
-        .calendar-container:hover,
-        .info-container:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 36px rgba(244, 220, 96, 0.2);
-        }
-
         /* --- Animation cho loading --- */
         .loading::after {
             content: '';
@@ -515,7 +505,7 @@
 <div class="container">
     <!-- Header với banner ở giữa -->
     <div class="header">
-        <img src="https://drive.google.com/uc?id=1V8eRQYB9OF1KqbrOO_BRlfk7dC5mpTlZ" alt="Ảnh từ Google Drive">
+        <img class="banner" src="https://github.com/s2voks2-wq/tiemvangnoiduyen/blob/main/banner.png" alt="Banner cửa hàng">
     </div>
 
     <!-- Tiêu đề và đồng hồ số cùng hàng -->
@@ -854,7 +844,7 @@
         "Cây ngay không sợ chết đứng",
         "Đói cho sạch, rách cho thơm",
         "Học thầy không tày học bạn",
-        "Một cây làm chẳng nên non, ba cây chụm lại nên hòn núi cao",
+        "Một cây làm chẳng nên non, ba cây chụm lại nên hơn núi cao",
         "Nhập gia tùy tục",
         "Ở hiền gặp lành",
         "Rừng vàng biển bạc",
@@ -988,6 +978,3 @@
 </script>
 </body>
 </html>
-
-
-
