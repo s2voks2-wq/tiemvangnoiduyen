@@ -145,6 +145,21 @@
     .last-updated { text-align:center; color:#fff; }
     .sync-status { display:flex; align-items:center; justify-content:center; gap:8px; margin-top:8px; }
     .sync-indicator { width:12px; height:12px; border-radius:50%; }
+/* Cho TV Full HD trở lên */
+@media (min-width: 1920px) {
+  .gold-table th {
+    font-size: 3.2vw;   /* cỡ chữ ~60px */
+    padding: 20px;
+  }
+  .gold-table td {
+    font-size: 2.8vw;   /* cỡ chữ ~53px */
+    font-weight: 800;
+    padding: 18px;
+  }
+  .gold-table td:not(:first-child) {
+    color: #FF0000; /* đỏ thuần, dễ nhìn từ xa */
+  }
+}
 
     /* Responsive: mobile / tablet */
     @media (max-width: 1024px) {
@@ -413,3 +428,4 @@
   </script>
 </body>
 </html>
+
