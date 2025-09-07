@@ -31,9 +31,9 @@
       flex-direction: column;
     }
 
-    /* Banner (giảm chiều cao) */
+    /* Banner nhỏ lại */
     .header {
-      flex: 0 0 20%; /* trước 33%, giảm còn 20% */
+      flex: 0 0 20%;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -53,7 +53,7 @@
       padding: 10px;
     }
 
-    /* Bảng giá vàng (trái) */
+    /* Gold section */
     .gold-section {
       flex: 3;
       display: flex;
@@ -88,27 +88,34 @@
     }
     .gold-table {
       width: 100%;
+      height: 100%;
       border-collapse: collapse;
       table-layout: fixed;
+    }
+    .gold-table th,
+    .gold-table td {
+      border: 1px solid rgba(255,255,255,0.2);
+      text-align: center;
+      padding: 5px;
+    }
+    /* Chia đều chiều cao: 1 hàng tiêu đề + 5 sản phẩm */
+    .gold-table th, .gold-table td {
+      height: calc(100% / 6);
     }
     .gold-table th {
       background: linear-gradient(135deg, #003cff, #007bff);
       color: #fff;
-      font-size: 1.4vw;
-      padding: 8px;
-      text-align: center;
+      font-size: 1.6vw;
     }
     .gold-table td {
       background: linear-gradient(135deg,#e2d818,#FFF200);
-      font-size: 1.2vw;
+      font-size: 1.4vw;
       font-weight: 700;
-      text-align: center;
-      padding: 6px;
     }
     .gold-table td:first-child { color: #0080ff; }
     .gold-table td:not(:first-child) { color: #cc0000; }
 
-    /* Sidebar (phải) */
+    /* Sidebar */
     .calendar-section {
       flex: 1;
       display: flex;
