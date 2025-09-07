@@ -1,994 +1,338 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DNTN KINH DOANH VÀNG BẠC - NƠI DUYÊN</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Oswald:wght@200..700&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
-    <style>
-        /* --- Cài đặt chung & Reset --- */
-       * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-        body {
-            background: black;
-            color: black;
-           
-            overflow: hidden;
-            padding: 8px;
-            font-family: 'Open Sans', sans-serif;
-            cursor: none;
-              height: auto;              /* bỏ ép height */
-    min-height: 100vh;         /* chỉ đảm bảo cao tối thiểu */
-    overflow-x: hidden;        /* tránh kéo ngang */
-        }
-/* --- Wrapper giữ đúng tỷ lệ TV --- */
-.wrapper {
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-        .container {
-             aspect-ratio: 16/9;  /* giữ đúng tỷ lệ ngang 16:9 */
-             width: 100%;
-    height: auto;
-            display: flex;
-            flex-direction: column;
-            
-            gap: 20px;
-        }
-
-        /* --- Header: Banner ở giữa --- */
-        .header {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 150px;
-            background: black;
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-        }
-
-        .banner {
-            height: 120px;
-            width: auto;
-            max-width: 90%;
-            object-fit: contain;
-            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
-        }
-
-        /* --- Tiêu đề và đồng hồ số cùng hàng --- */
-        .title-section {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 0 20px;
-            padding: 0 30px;
-        }
-
-        .gold-title {
-            color: #0080ff;
-            font-size: 3rem;
-            font-weight: 900;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-            letter-spacing: 2px;
-        }
-
-        /* --- Đồng hồ số 24h --- */
-        .digital-clock {
-          
-        
-           
-          
-           
-        }
-
-        .time-display {
-            font-size: 3.8rem;
-            font-weight: bold;
-            color: #f4dc60;
-            font-family: 'Roboto Mono', monospace;
-            letter-spacing: 3px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-        }
-
-        /* --- Nội dung chính --- */
-        .main-content {
-            flex: 1;
-            display: flex;
-            gap: 20px;
-            overflow: hidden;
-        }
-
-        /* --- Bảng giá vàng --- */
-        .gold-section {
-            flex: 3;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .gold-table-container {
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 15px;
-            overflow: hidden;
-            flex: 1;
-            backdrop-filter: blur(15px);
-            border: 3px solid rgba(244, 220, 96, 0.4);
-            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-        }
-
-        .gold-table {
-            width: 100%;
-            height: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-             display: table;
-            table-layout: fixed;
-        }
-
-        .gold-table thead {
-            display: table-header-group;
-        }
-
-        .gold-table tbody {
-            display: table-row-group;
-            height: calc(100% - 100px);
-            overflow-y: auto;
-        }
-
-        .gold-table th {
-            background: linear-gradient(135deg, #003cff, #0056ff, #007bff);
-            color: #ffffff;
-            font-size: 2.2rem;
-            font-weight: 900;
-            padding: 20px 15px;
-            text-align: center;
-            border: 2px solid rgba(255,255,255,0.3);
-            position: sticky;
-            top: 0;
-            z-index: 5;
-            height: 80px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-            box-sizing: border-box;
-        }
-
-        /* --- Ô tên vàng (cột đầu tiên) --- */
-        .gold-table td:first-child {
-            background: linear-gradient(135deg,#e2d818, #FFF200);
-            color: #0080ff;
-        
-            font-size: 2rem;
-            font-weight: 800;
-            padding: 20px 15px;
-            text-align: center;
-            border: 2px solid rgba(255,255,255,0.4);
-            box-sizing: border-box;
-            height: 70px;
-        }
-
-        /* --- Ô giá tiền (các cột còn lại) --- */
-        .gold-table td:not(:first-child) {
-            background: linear-gradient(135deg, #e2d818, #FFF200);
-            color: #cc0000;
-           
-            font-size: 2rem;
-            font-weight: 800;
-            padding: 15px 10px;
-            text-align: center;
-            border: 2px solid rgba(255,255,255,0.4);
-            box-sizing: border-box;
-            height: 70px;
-        }
-
-        .gold-table tbody tr:nth-child(even) td:first-child {
-            background: linear-gradient(135deg, #e2d818, #FFF200);
-        }
-
-        .gold-table tbody tr:nth-child(even) td:not(:first-child) {
-            background: linear-gradient(135deg,#e2d818, #FFF200);
-        }
-
-        /* --- Sidebar: Lịch và thông tin --- */
-        .calendar-section {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .calendar-container, .info-container {
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 15px;
-            padding: 15px;
-            backdrop-filter: blur(15px);
-            border: 3px solid rgba(244, 220, 96, 0.4);
-            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-        }
-
-        .calendar-container {
-            flex: 1;
-            text-align: center;
-        }
-
-        .lunar-date {
-            color: #f4dc60;
-            font-size: 1.1rem;
-            font-style: italic;
-            margin-bottom: 15px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
-            font-weight: 600;
-        }
-
-        .calendar h4 {
-            color: #f4dc60;
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-            font-weight: 900;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-        }
-
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 4px;
-            font-size: 1.0rem;
-        }
-
-        .calendar-header {
-            color: #ffffff;
-            font-weight: bold;
-            padding: 12px 6px;
-            background: linear-gradient(135deg, #003cff, #0056ff);
-            border-radius: 8px;
-            font-size: 0.9rem;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-        }
-
-        .calendar-day {
-            color: #f4dc60;
-            padding: 12px 6px;
-            text-align: center;
-            border-radius: 8px;
-            font-weight: 600;
-        }
-
-        .calendar-day.today {
-            background: linear-gradient(135deg, #f4dc60, #ffd700);
-            color: #000;
-            font-weight: 900;
-            transform: scale(1.15);
-            box-shadow: 0 0 16px rgba(244, 220, 96, 0.8);
-            border: 2px solid #fff;
-        }
-
-        /* --- Phần Ca Dao Tục Ngữ --- */
-        .folk-wisdom {
-            background: linear-gradient(135deg, rgba(0, 60, 255, 0.3), rgba(0, 86, 255, 0.2));
-            border-radius: 15px;
-            padding: 20px;
-            border: 2px solid rgba(244, 220, 96, 0.4);
-            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-        }
-
-        .wisdom-title {
-            color: #f4dc60;
-            font-size: 1.3rem;
-            font-weight: 900;
-            margin-bottom: 12px;
-            text-align: center;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-        }
-
-        .wisdom-content {
-            color: #ffffff;
-            font-size: 1.1rem;
-            font-style: italic;
-            text-align: center;
-            line-height: 1.5;
-            font-weight: 500;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.6);
-        }
-
-        /* --- Thời gian cập nhật --- */
-        .info-container {
-            min-height: 120px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .last-updated {
-            color: #ffffff;
-            font-size: 1.1rem;
-            font-weight: 600;
-            text-align: center;
-            opacity: 0.9;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.6);
-        }
-
-        .sync-status {
-            margin-top: 15px;
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .sync-indicator {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-
-        .sync-indicator.online {
-            background: #00ff00;
-            box-shadow: 0 0 10px #00ff00;
-        }
-
-        .sync-indicator.offline {
-            background: #ff0000;
-            box-shadow: 0 0 10px #ff0000;
-        }
-
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
-        }
-
-        /* --- Trạng thái --- */
-        .loading, .error {
-            text-align: center;
-            font-size: 2.5rem;
-            padding: 40px;
-            color: #f4dc60;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100%;
-            font-weight: 700;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-        }
-
-        .error {
-            color: #ff6b6b;
-        }
-
-        /* --- Tối ưu cho TV 55 inch (3840x2160 - 4K) --- */
-        @media (min-width: 2560px) {
-            body {
-                padding: 15px;
-            }
-
-            .container {
-                gap: 30px;
-            }
-
-            .header {
-                min-height: 220px;
-            }
-
-            .banner {
-                height: 180px;
-                max-width: 2000px;
-            }
-
-            .gold-title {
-                font-size: 4.2rem;
-                letter-spacing: 5px;
-            }
-
-            .digital-clock {
-                padding: 35px 60px;
-                border-radius: 25px;
-            }
-
-            .time-display {
-                font-size: 6.0rem;
-                letter-spacing: 6px;
-            }
-
-            .main-content {
-                gap: 35px;
-            }
-
-            .gold-table-container {
-                border-radius: 25px;
-                border-width: 4px;
-            }
-
-            .gold-table th {
-                font-size: 3.5rem;
-                padding: 45px 25px;
-                height: 120px;
-            }
-
-            .gold-table td {
-                font-size: 3.2rem;
-                padding: 25px 20px;
-                height: 90px;
-            }
-
-            .lunar-date {
-                font-size: 1.4rem;
-                margin-bottom: 20px;
-            }
-
-            .calendar h4 {
-                font-size: 2.2rem;
-                margin-bottom: 20px;
-            }
-
-            .calendar-grid {
-                gap: 6px;
-                font-size: 1.3rem;
-            }
-
-            .calendar-header {
-                padding: 15px 8px;
-                font-size: 1.1rem;
-                border-radius: 10px;
-            }
-
-            .calendar-day {
-                padding: 15px 8px;
-                border-radius: 10px;
-            }
-
-            .wisdom-title {
-                font-size: 1.6rem;
-                margin-bottom: 15px;
-            }
-
-            .wisdom-content {
-                font-size: 1.4rem;
-                line-height: 1.6;
-            }
-
-            .last-updated {
-                font-size: 1.3rem;
-            }
-
-            .loading, .error {
-                font-size: 3.5rem;
-                padding: 60px;
-            }
-        }
-
-        /* --- Tối ưu cho TV 55 inch Full HD (1920x1080) --- */
-        @media (min-width: 1920px) and (max-width: 2559px) {
-            .gold-title {
-                font-size: 4.2rem;
-            }
-
-            .time-display {
-                font-size: 5.0rem;
-            }
-
-            .gold-table th {
-                font-size: 3.0rem;
-                padding: 40px 22px;
-                height: 100px;
-            }
-
-            .gold-table td {
-                font-size: 2.6rem;
-                padding: 22px 18px;
-                height: 85px;
-            }
-
-            .calendar h4 {
-                font-size: 2.0rem;
-            }
-
-            .calendar-grid {
-                font-size: 1.2rem;
-            }
-
-            .wisdom-content {
-                font-size: 1.3rem;
-            }
-        }
-
-        /* --- Animation cho loading --- */
-        .loading::after {
-            content: '';
-            animation: loading-dots 1.5s infinite;
-        }
-
-        @keyframes loading-dots {
-            0%, 20% { content: ''; }
-            40% { content: '.'; }
-            60% { content: '..'; }
-            80%, 100% { content: '...'; }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DNTN KINH DOANH VÀNG BẠC - NƠI DUYÊN</title>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;800&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* Reset */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: linear-gradient(135deg, #0f0f23, #1a1a3a);
+      font-family: 'Open Sans', sans-serif;
+      color: white;
+      overflow: hidden;
+    }
+
+    .wrapper {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header (Banner chiếm 1/3 chiều cao trên TV) */
+    .header {
+      flex: 0 0 33%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: black;
+    }
+    .banner {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    /* Main content */
+    .main-content {
+      flex: 1;
+      display: flex;
+      gap: 15px;
+      padding: 10px;
+    }
+
+    /* Gold section (trái) */
+    .gold-section {
+      flex: 3;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    /* Thanh tiêu đề */
+    .title-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255,255,255,0.05);
+      border-radius: 8px;
+      padding: 5px 15px;
+    }
+    .gold-title {
+      font-size: 1.6vw;
+      font-weight: 800;
+      color: #0080ff;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.6);
+    }
+    .time-display {
+      font-size: 1.8vw;
+      color: #f4dc60;
+      font-family: 'Roboto Mono', monospace;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.6);
+    }
+
+    /* Bảng giá vàng */
+    .gold-table-container {
+      flex: 1;
+      background: rgba(255,255,255,0.08);
+      border-radius: 12px;
+      border: 2px solid rgba(244,220,96,0.4);
+      overflow: hidden;
+    }
+    .gold-table {
+      width: 100%;
+      height: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+    .gold-table th {
+      background: linear-gradient(135deg, #003cff, #007bff);
+      color: #fff;
+      font-size: 1.6vw;
+      padding: 10px;
+      text-align: center;
+    }
+    .gold-table td {
+      background: linear-gradient(135deg,#e2d818,#FFF200);
+      font-size: 1.4vw;
+      font-weight: 700;
+      text-align: center;
+      padding: 8px;
+    }
+    .gold-table td:first-child { color: #0080ff; }
+    .gold-table td:not(:first-child) { color: #cc0000; }
+
+    /* Sidebar (phải) */
+    .calendar-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .calendar-container, .info-container {
+      background: rgba(255,255,255,0.08);
+      border-radius: 10px;
+      padding: 10px;
+      border: 2px solid rgba(244,220,96,0.4);
+    }
+    .lunar-date { font-size: 1vw; color: #f4dc60; text-align: center; }
+    .calendar h4 { font-size: 1.3vw; color: #f4dc60; text-align: center; margin-bottom: 5px; }
+    .calendar-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 2px; font-size: 0.9vw; }
+    .calendar-header { background: #0056ff; color: #fff; padding: 4px; text-align: center; border-radius: 4px; }
+    .calendar-day { color: #f4dc60; text-align: center; padding: 4px; border-radius: 4px; }
+    .calendar-day.today { background: #ffd700; color: #000; font-weight: 900; transform: scale(1.1); }
+
+    .wisdom-title { font-size: 1vw; text-align: center; color: #f4dc60; margin: 5px 0; }
+    .wisdom-content { font-size: 0.9vw; text-align: center; color: #fff; font-style: italic; }
+
+    .last-updated { font-size: 0.8vw; text-align: center; margin-top: 5px; }
+    .sync-status { display: flex; justify-content: center; gap: 5px; margin-top: 5px; }
+    .sync-indicator { width: 10px; height: 10px; border-radius: 50%; }
+    .sync-indicator.online { background: #00ff00; box-shadow: 0 0 8px #00ff00; }
+    .sync-indicator.offline { background: #ff0000; box-shadow: 0 0 8px #ff0000; }
+
+    /* Loading/Error */
+    .loading, .error {
+      text-align: center;
+      font-size: 2vw;
+      padding: 20px;
+      color: #f4dc60;
+    }
+    .error { color: #ff6b6b; }
+
+    /* --- Responsive cho laptop & tablet --- */
+    @media (max-width: 1366px) {
+      .gold-title { font-size: 1.2rem; }
+      .time-display { font-size: 1.4rem; }
+      .gold-table th { font-size: 1.1rem; }
+      .gold-table td { font-size: 1rem; }
+    }
+
+    /* --- Responsive cho điện thoại --- */
+    @media (max-width: 768px) {
+      .header { flex: 0 0 25%; }
+      .main-content { flex-direction: column; }
+      .gold-section, .calendar-section { flex: none; width: 100%; }
+      .gold-title { font-size: 1.1rem; }
+      .time-display { font-size: 1.2rem; }
+      .gold-table th { font-size: 0.9rem; padding: 5px; }
+      .gold-table td { font-size: 0.85rem; padding: 4px; }
+      .calendar h4 { font-size: 1rem; }
+      .calendar-grid { font-size: 0.8rem; }
+      .wisdom-content { font-size: 0.85rem; }
+    }
+  </style>
 </head>
 <body>
-    <div class="wrapper">
-<div class="container">
-    <!-- Header với banner ở giữa -->
-    <div class="header">
-     <img class="banner" src="https://raw.githubusercontent.com/s2voks2-wq/tiemvangnoiduyen/main/banner.png" alt="Banner cửa hàng">
-    </div>
+<div class="wrapper">
+  <div class="container">
 
-    <!-- Tiêu đề và đồng hồ số cùng hàng -->
-    <div class="title-section">
-        <h1 class="gold-title">GIÁ VÀNG HÔM NAY</h1>
-        <div class="digital-clock">
-            <div class="time-display" id="digitalTime">00:00:00</div>
-        </div>
+    <!-- Banner -->
+    <div class="header">
+      <img class="banner" src="https://raw.githubusercontent.com/s2voks2-wq/tiemvangnoiduyen/main/banner.png" alt="Banner cửa hàng">
     </div>
 
     <!-- Nội dung chính -->
     <div class="main-content">
-        <!-- Bảng giá vàng -->
-        <div class="gold-section">
-            <div class="gold-table-container">
-                <div id="tableContainer">
-                    <div class="loading">Đang tải dữ liệu</div>
-                </div>
-            </div>
+      <!-- Bảng giá vàng -->
+      <div class="gold-section">
+        <div class="title-bar">
+          <h1 class="gold-title">GIÁ VÀNG HÔM NAY</h1>
+          <div class="digital-clock">
+            <div class="time-display" id="digitalTime">00:00:00</div>
+          </div>
+        </div>
+        <div class="gold-table-container">
+          <div id="tableContainer">
+            <div class="loading">Đang tải dữ liệu</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="calendar-section">
+        <div class="calendar-container">
+          <div class="lunar-date" id="lunarDate"></div>
+          <div class="calendar">
+            <h4 id="calendarMonth"></h4>
+            <div class="calendar-grid" id="calendarGrid"></div>
+          </div>
+          <div class="folk-wisdom">
+            <div class="wisdom-title">Ca Dao Tục Ngữ</div>
+            <div class="wisdom-content" id="folkWisdom"></div>
+          </div>
         </div>
 
-        <!-- Sidebar: Lịch và thông tin -->
-        <div class="calendar-section">
-            <div class="calendar-container">
-                <div class="lunar-date" id="lunarDate"></div>
-                <div class="calendar">
-                    <h4 id="calendarMonth"></h4>
-                    <div class="calendar-grid" id="calendarGrid"></div>
-                </div>
-                <div class="folk-wisdom">
-                    <div class="wisdom-title">Ca Dao Tục Ngữ</div>
-                    <div class="wisdom-content" id="folkWisdom"></div>
-                </div>
-            </div>
-
-            <div class="info-container">
-                <div class="last-updated" id="lastUpdated"></div>
-                <div class="sync-status">
-                    <div class="sync-indicator" id="syncIndicator"></div>
-                    <span id="syncText">Connecting...</span>
-                </div>
-            </div>
+        <div class="info-container">
+          <div class="last-updated" id="lastUpdated"></div>
+          <div class="sync-status">
+            <div class="sync-indicator" id="syncIndicator"></div>
+            <span id="syncText">Connecting...</span>
+          </div>
         </div>
+      </div>
     </div>
+
+  </div>
 </div>
-</div>
+
 <script>
-    const SHEET_ID = '1b5u3h4dl1R_qitdExmbDRn8GdPk3jX6skW9XiF_OJWQ';
-    const API_KEY = 'AIzaSyABuWz8zGYpfbuV4-Ht2aEqnXEzD9k8FRE';
-    const SHEET_NAME = 'Sheet1';
+  const SHEET_ID = '1b5u3h4dl1R_qitdExmbDRn8GdPk3jX6skW9XiF_OJWQ';
+  const API_KEY = 'AIzaSyABuWz8zGYpfbuV4-Ht2aEqnXEzD9k8FRE';
+  const SHEET_NAME = 'Sheet1';
 
-    // Biến lưu trữ dữ liệu
-    let goldDataCache = null;
-    let lastFetchTime = 0;
+  function formatNumber(num) {
+    if (!num || num === '') return '';
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  }
 
-    // Biến quản lý thời gian
-    let timeOffset = 0;
-    let isOnline = false;
-    let lastSyncTime = 0;
-    const SYNC_INTERVAL = 5 * 60 * 1000; // 5 phút
+  async function fetchGoldData() {
+    const tableContainer = document.getElementById('tableContainer');
+    try {
+      const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${SHEET_NAME}?key=${API_KEY}`;
+      const response = await fetch(url);
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const data = await response.json();
 
-    function formatNumber(num) {
-        if (!num || num === '') return '';
-        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+      if (data.values && data.values.length > 0) {
+        renderTable(data.values);
+        updateLastUpdatedTime();
+      } else throw new Error("Không có dữ liệu");
+    } catch (e) {
+      if (tableContainer) tableContainer.innerHTML = '<div class="error">Không thể tải dữ liệu</div>';
     }
+  }
 
-    /* ĐỒNG BỘ THỜI GIAN VỚI SERVER */
-    async function syncTimeWithServer() {
-        try {
-            const startTime = Date.now();
-            const response = await fetch('https://worldtimeapi.org/api/timezone/Asia/Ho_Chi_Minh', {
-                method: 'GET',
-                cache: 'no-cache'
-            });
+  function renderTable(data) {
+    const tableContainer = document.getElementById('tableContainer');
+    if (!tableContainer) return;
 
-            if (!response.ok) {
-                throw new Error(`HTTP ${response.status}`);
-            }
-
-            const data = await response.json();
-            const endTime = Date.now();
-            const networkDelay = (endTime - startTime) / 2;
-
-            const serverTime = new Date(data.datetime).getTime() + networkDelay;
-            const localTime = Date.now();
-
-            timeOffset = serverTime - localTime;
-            isOnline = true;
-            lastSyncTime = Date.now();
-
-            updateSyncStatus(true);
-            console.log(`Đồng bộ thời gian thành công. Độ lệch: ${timeOffset}ms`);
-            return true;
-        } catch (error) {
-            console.error('Lỗi đồng bộ thời gian:', error);
-            isOnline = false;
-            updateSyncStatus(false);
-            return false;
-        }
+    let html = '<table class="gold-table">';
+    if (data[0]) {
+      html += '<thead><tr>';
+      data[0].forEach(h => html += `<th>${h}</th>`);
+      html += '</tr></thead>';
     }
-
-    function updateSyncStatus(online) {
-        const syncText = document.getElementById('syncText');
-        const syncIndicator = document.getElementById('syncIndicator');
-
-        if (syncText) {
-            syncText.textContent = online ? 'Online' : 'Offline';
-        }
-        if (syncIndicator) {
-            syncIndicator.className = `sync-indicator ${online ? 'online' : 'offline'}`;
-        }
+    html += '<tbody>';
+    for (let i=1;i<data.length;i++) {
+      html += '<tr>';
+      data[i].forEach((cell,idx)=>{
+        const formatted = (idx>0 && cell) ? formatNumber(cell) : cell;
+        html += `<td>${formatted||''}</td>`;
+      });
+      html += '</tr>';
     }
+    html += '</tbody></table>';
+    tableContainer.innerHTML = html;
+  }
 
-    function getCurrentTime() {
-        return new Date(Date.now() + timeOffset);
+  function updateLastUpdatedTime() {
+    const el = document.getElementById('lastUpdated');
+    if (el) {
+      const now = new Date();
+      el.textContent = "Cập nhật: " + now.toLocaleString('vi-VN');
     }
+  }
 
-    /* CẬP NHẬT ĐỒNG HỒ SỐ */
-    function updateDigitalClock() {
-        const now = getCurrentTime();
-        const hours = now.getHours().toString().padStart(2, '0');
-        const minutes = now.getMinutes().toString().padStart(2, '0');
-        const seconds = now.getSeconds().toString().padStart(2, '0');
-        const timeString = `${hours}:${minutes}:${seconds}`;
+  function updateDigitalClock() {
+    const now = new Date();
+    const h = String(now.getHours()).padStart(2,'0');
+    const m = String(now.getMinutes()).padStart(2,'0');
+    const s = String(now.getSeconds()).padStart(2,'0');
+    document.getElementById('digitalTime').textContent = `${h}:${m}:${s}`;
+  }
 
-        const timeElement = document.getElementById('digitalTime');
-        if (timeElement) timeElement.textContent = timeString;
+  function updateCalendar() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.getMonth();
+    const daysInMonth = new Date(year, month+1, 0).getDate();
+    const firstDay = new Date(year, month, 1).getDay();
+    const today = now.getDate();
+
+    document.getElementById('calendarMonth').textContent = `Tháng ${month+1} ${year}`;
+
+    let html = '';
+    ['CN','T2','T3','T4','T5','T6','T7'].forEach(d => html+=`<div class="calendar-header">${d}</div>`);
+    for (let i=0;i<firstDay;i++) html += `<div class="calendar-day"></div>`;
+    for (let d=1;d<=daysInMonth;d++) {
+      html += `<div class="calendar-day ${d===today?'today':''}">${d}</div>`;
     }
+    document.getElementById('calendarGrid').innerHTML = html;
+  }
 
-    /* CẬP NHẬT NGÀY ÂM LỊCH */
-    function updateLunarDate() {
-        const now = new Date();
-        const lunar = getLunarDate(now);
-        const lunarElement = document.getElementById('lunarDate');
-        if (lunarElement) {
-            lunarElement.textContent = `Ngày ${lunar.day} tháng ${lunar.month} năm ${lunar.year} (Âm lịch)`;
-        }
-    }
-
-    function getLunarDate(solarDate) {
-        const jd = getJulianDay(solarDate);
-        const lunarMonth = Math.floor((jd - 2415021) / 29.53) % 12 + 1;
-        const lunarDay = Math.floor((jd - 2415021) % 29.53) + 1;
-        const lunarYear = solarDate.getFullYear();
-        return {
-            day: Math.max(1, Math.min(30, lunarDay)),
-            month: lunarMonth,
-            year: lunarYear
-        };
-    }
-
-    function getJulianDay(date) {
-        const a = Math.floor((14 - (date.getMonth() + 1)) / 12);
-        const y = date.getFullYear() + 4800 - a;
-        const m = (date.getMonth() + 1) + 12 * a - 3;
-        return date.getDate() + Math.floor((153 * m + 2) / 5) + 365 * y +
-               Math.floor(y / 4) - Math.floor(y / 100) + Math.floor(y / 400) - 32045;
-    }
-
-    /* CẬP NHẬT LỊCH VẠN NIÊN */
-    function updateCalendar() {
-        const now = new Date();
-        const year = now.getFullYear();
-        const month = now.getMonth();
-        const monthNames = [
-            'Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6',
-            'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'
-        ];
-        const dayNames = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'];
-
-        const calendarMonth = document.getElementById('calendarMonth');
-        if (calendarMonth) {
-            calendarMonth.textContent = `${monthNames[month]} ${year}`;
-        }
-
-        const firstDay = new Date(year, month, 1).getDay();
-        const daysInMonth = new Date(year, month + 1, 0).getDate();
-        const today = now.getDate();
-
-        let html = '';
-
-        dayNames.forEach(day => {
-            html += `<div class="calendar-header">${day}</div>`;
-        });
-
-        for (let i = 0; i < firstDay; i++) {
-            html += '<div class="calendar-day"></div>';
-        }
-
-        for (let day = 1; day <= daysInMonth; day++) {
-            const isToday = (day === today);
-            html += `<div class="calendar-day ${isToday ? 'today' : ''}">${day}</div>`;
-        }
-
-        const calendarGrid = document.getElementById('calendarGrid');
-        if (calendarGrid) {
-            calendarGrid.innerHTML = html;
-        }
-    }
-
-    function checkAndSyncTime() {
-        const now = Date.now();
-        if (now - lastSyncTime > SYNC_INTERVAL) {
-            syncTimeWithServer();
-        }
-    }
-
-    /* LƯU VÀ TẢI DỮ LIỆU */
-    function saveToLocal(data) {
-        try {
-            goldDataCache = data;
-            lastFetchTime = Date.now();
-        } catch (error) {
-            console.error('Lỗi lưu dữ liệu:', error);
-        }
-    }
-
-    function loadFromLocal() {
-        return goldDataCache;
-    }
-
-    /* TẢI DỮ LIỆU TỪ GOOGLE SHEETS */
-    async function fetchGoldData() {
-        const tableContainer = document.getElementById('tableContainer');
-
-        try {
-            const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${SHEET_NAME}?key=${API_KEY}`;
-            const response = await fetch(url);
-
-            if (!response.ok) {
-                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-            }
-
-            const data = await response.json();
-
-            if (data.values && data.values.length > 0) {
-                saveToLocal(data.values);
-                renderTable(data.values);
-                updateLastUpdatedTime();
-                console.log('Dữ liệu đã được cập nhật từ Google Sheets');
-            } else {
-                throw new Error('Không có dữ liệu trong bảng');
-            }
-        } catch (error) {
-            console.error("Lỗi tải dữ liệu:", error);
-
-            const localData = loadFromLocal();
-            if (localData && localData.length > 0) {
-                renderTable(localData);
-                if (tableContainer) {
-                    const errorNote = document.createElement('div');
-                    errorNote.style.cssText = `
-                        position: absolute;
-                        top: 15px;
-                        right: 15px;
-                        background: rgba(255, 0, 0, 0.8);
-                        color: white;
-                        padding: 8px 16px;
-                        border-radius: 8px;
-                        font-size: 1.1rem;
-                        z-index: 10;
-                        font-weight: 600;
-                    `;
-                    errorNote.textContent = 'Offline - Dữ liệu cache';
-                    tableContainer.style.position = 'relative';
-                    tableContainer.appendChild(errorNote);
-                }
-            } else {
-                if (tableContainer) {
-                    tableContainer.innerHTML = '<div class="error">Không thể tải dữ liệu. Vui lòng kiểm tra kết nối mạng.</div>';
-                }
-            }
-            updateLastUpdatedTime();
-        }
-    }
-
-    /* HIỂN THỊ BẢNG DỮ LIỆU */
-    function renderTable(data) {
-        const tableContainer = document.getElementById('tableContainer');
-        if (!tableContainer || !data || data.length === 0) return;
-
-        let html = '<table class="gold-table">';
-
-        if (data[0]) {
-            html += '<thead><tr>';
-            data[0].forEach(header => {
-                html += `<th>${header}</th>`;
-            });
-            html += '</tr></thead>';
-        }
-
-        html += '<tbody>';
-        for (let i = 1; i < data.length; i++) {
-            const row = data[i];
-            html += '<tr>';
-            row.forEach((cell, index) => {
-                const formattedCell = (index > 0 && cell) ? formatNumber(cell) : cell;
-                html += `<td>${formattedCell || ''}</td>`;
-            });
-            html += '</tr>';
-        }
-        html += '</tbody>';
-        html += '</table>';
-
-        tableContainer.innerHTML = html;
-    }
-
-    function updateLastUpdatedTime() {
-        const lastUpdatedElement = document.getElementById('lastUpdated');
-        if (lastUpdatedElement) {
-            const now = new Date();
-            const timeString = now.toLocaleString('vi-VN', {
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
-            });
-            lastUpdatedElement.textContent = `Cập nhật: ${timeString}`;
-        }
-    }
-
-    // Kho dữ liệu ca dao tục ngữ
-    const folkWisdomDatabase = [
-        "Ăn quả nhớ kẻ trồng cây",
-        "Có công mài sắt, có ngày nên kim",
-        "Đi một ngày đàng, học một sàng khôn",
-        "Lá lành đùm lá rách",
-        "Thương người như thể thương thân",
-        "Uống nước nhớ nguồn",
-        "Gần mực thì đen, gần đèn thì sáng",
-        "Tốt gỗ hơn tốt nước sơn",
-        "Chớ thấy sóng cả mà ngã tay chèo",
-        "Kiến tha lâu cũng đầy tổ",
-        "Cây ngay không sợ chết đứng",
-        "Đói cho sạch, rách cho thơm",
-        "Học thầy không tày học bạn",
-        "Một cây làm chẳng nên non, ba cây chụm lại nên hơn núi cao",
-        "Nhập gia tùy tục",
-        "Ở hiền gặp lành",
-        "Rừng vàng biển bạc",
-        "Tay làm hàm nhai, tay quay miệng trễ",
-        "Yêu nhau yêu cả đường đi, ghét nhau ghét cả tông chi họ hàng",
-        "Bán anh em xa mua láng giềng gần"
+  function updateFolkWisdom() {
+    const wisdoms = [
+      "Ăn quả nhớ kẻ trồng cây","Có công mài sắt, có ngày nên kim",
+      "Đi một ngày đàng, học một sàng khôn","Lá lành đùm lá rách",
+      "Thương người như thể thương thân","Uống nước nhớ nguồn"
     ];
+    const day = new Date().getDate();
+    document.getElementById('folkWisdom').textContent = wisdoms[day % wisdoms.length];
+  }
 
-    // Thêm các câu theo chủ đề ngày lễ
-    const holidayWisdom = {
-        "01/01": "Năm mới an khang thịnh vượng",
-        "30/04": "Nhớ ơn các anh hùng liệt sĩ",
-        "01/05": "Ngày Quốc tế Lao động",
-        "02/09": "Quốc khánh Việt Nam",
-        "15/08": "Tết Trung thu - Đêm hội trăng rằm",
-        "20/11": "Tôn sư trọng đạo"
-    };
-
-    /* HÀM LẤY CA DAO TỤC NGỮ */
-    function getFolkWisdom() {
-        const now = new Date();
-        const todayKey = `${now.getDate().toString().padStart(2, '0')}/${(now.getMonth() + 1).toString().padStart(2, '0')}`;
-        
-        // Kiểm tra nếu là ngày lễ thì trả về câu phù hợp
-        if (holidayWisdom[todayKey]) {
-            return holidayWisdom[todayKey];
-        }
-        
-        // Tính index dựa trên ngày trong tháng để có câu ổn định mỗi ngày
-        const dayOfMonth = now.getDate();
-        const index = dayOfMonth % folkWisdomDatabase.length;
-        
-        return folkWisdomDatabase[index];
-    }
-
-    /* HÀM CẬP NHẬT CA DAO TỤC NGỮ */
-    function updateFolkWisdom() {
-        const wisdomElement = document.getElementById('folkWisdom');
-        if (!wisdomElement) return;
-        
-        const wisdom = getFolkWisdom();
-        wisdomElement.textContent = `"${wisdom}"`;
-    }
-
-    function startWisdomRotation() {
-        // Đổi câu mỗi 2 giờ (có thể điều chỉnh thời gian)
-        setInterval(() => {
-            updateFolkWisdom();
-            
-            // Hiệu ứng fade
-            const wisdomElement = document.getElementById('folkWisdom');
-            if (wisdomElement) {
-                wisdomElement.style.opacity = '0';
-                setTimeout(() => {
-                    wisdomElement.style.opacity = '1';
-                }, 500);
-            }
-        }, 2 * 60 * 60 * 1000); // 2 giờ
-    }
-
-    /* LỊCH CẬP NHẬT HÀNG NGÀY */
-    function scheduleDailyUpdates() {
-        const now = new Date();
-        const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
-        const msUntilMidnight = tomorrow.getTime() - now.getTime();
-
-        setTimeout(() => {
-            updateLunarDate();
-            updateCalendar();
-            updateFolkWisdom();
-            scheduleDailyUpdates(); // Lặp lại cho ngày tiếp theo
-        }, msUntilMidnight + 1000); // +1 giây để đảm bảo đã qua midnight
-    }
-
-    /* KHỞI TẠO ỨNG DỤNG */
-    function init() {
-        console.log('Khởi tạo ứng dụng cho TV 55 inch...');
-
-        // Đồng bộ thời gian trước khi bắt đầu
-        syncTimeWithServer();
-
-        // Tải dữ liệu ban đầu
-        fetchGoldData();
-
-        // Ca dao tục ngữ
-        updateFolkWisdom();
-        startWisdomRotation();
-
-        // Khởi tạo đồng hồ và lịch
-        updateDigitalClock();
-        updateLunarDate();
-        updateCalendar();
-
-        // Thiết lập intervals
-        setInterval(updateDigitalClock, 1000); // Cập nhật đồng hồ mỗi giây
-        setInterval(fetchGoldData, 30000); // Tải dữ liệu mỗi 30 giây
-        setInterval(checkAndSyncTime, 60000); // Kiểm tra đồng bộ thời gian mỗi phút
-
-        // Lịch cập nhật hàng ngày
-        scheduleDailyUpdates();
-
-        // Tự động làm mới trang mỗi 6 giờ để tránh memory leak
-        setTimeout(() => {
-            window.location.reload();
-        }, 6 * 60 * 60 * 1000);
-
-        console.log('Ứng dụng đã khởi tạo thành công cho TV 55 inch');
-    }
-
-    // Khởi động khi trang được tải
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
-    } else {
-        init();
-    }
-
-    // Event listeners
-    window.addEventListener('beforeunload', function() {
-        console.log('Trang đang được tải lại...');
-    });
-
-    // Xử lý lỗi JavaScript global
-    window.addEventListener('error', function(e) {
-        console.error('Lỗi JavaScript:', e.error);
-    });
-
-    // Xử lý lỗi Promise không được catch
-    window.addEventListener('unhandledrejection', function(e) {
-        console.error('Lỗi Promise:', e.reason);
-    });
+  function init() {
+    fetchGoldData();
+    updateDigitalClock();
+    updateCalendar();
+    updateFolkWisdom();
+    setInterval(updateDigitalClock,1000);
+    setInterval(fetchGoldData,60000);
+  }
+  document.addEventListener('DOMContentLoaded', init);
 </script>
 </body>
 </html>
