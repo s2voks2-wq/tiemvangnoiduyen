@@ -674,172 +674,105 @@ function jdFromDate(dd, mm, yy) {
         + INT(y / 4) - INT(y / 100) + INT(y / 400) - 32045;
     return jd;
 }
+/* ====== ÂM LỊCH VIỆT NAM CHUẨN - BẢN FULL ====== */
 
-function getNewMoonDay(k, timeZone) {
-    const T = k / 1236.85;
-    const T2 = T * T;
-    const T3 = T2 * T;
-    const dr = Math.PI / 180;
-    let Jd1 = 2415020.75933 + 29.53058868 * k
-        + 0.0001178 * T2 - 0.000000155 * T3;
-    Jd1 += 0.00033 * Math.sin((166.56 + 132.87 * T - 0.009173 * T2) * dr);
-    const M = 359.2242 + 29.10535608 * k
-        - 0.0000333 * T2 - 0.00000347 * T3;
-    const Mpr = 306.0253 + 385.81691806 * k
-        + 0.0107306 * T2 + 0.00001236 * T3;
-    const F = 21.2964 + 390.67050646 * k
-        - 0.0016528 * T2 - 0.00000239 * T3;
-    let C1 = (0.1734 - 0.000393 * T) * Math.sin(M * dr)
-        + 0.0021 * Math.sin(2 * dr * M);
-    C1 -= 0.4068 * Math.sin(Mpr * dr)
-        + 0.0161 * Math.sin(dr * 2 * Mpr);
-    C1 -= 0.0004 * Math.sin(dr * 3 * Mpr);
-    C1 += 0.0104 * Math.sin(dr * 2 * F)
-        - 0.0051 * Math.sin(dr * (M + Mpr));
-    C1 -= 0.0074 * Math.sin(dr * (M - Mpr))
-        + 0.0004 * Math.sin(dr * (2 * F + M));
-    C1 -= 0.0004 * Math.sin(dr * (2 * F - M))
-        - 0.0006 * Math.sin(dr * (2 * F + Mpr));
-    C1 += 0.0010 * Math.sin(dr * (2 * F - Mpr))
-        + 0.0005 * Math.sin(dr * (2 * Mpr + M));
-    let deltat = T < -11
-        ? 0.001 + 0.000839 * T + 0.0002261 * T2
-        : -0.000278 + 0.000265 * T + 0.000262 * T2;
-    return INT(Jd1 + C1 - deltat + 0.5 + timeZone / 24);
+function INT(d) {
+    return Math.floor(d);
 }
 
-/* --- HÀM TÍNH ÂM LỊCH CHUẨN (ĐÃ SỬA) --- */
-function getLunarDateVN(date) {
-    const dd = date.getDate();
-    const mm = date.getMonth() + 1;
-    const yy = date.getFullYear();
-    const timeZone = 7; // Múi giờ Việt Nam
+function jdFromDate(dd, mm, yy) {
+    let a = INT((14 - mm) / 12);
+    let y = yy + 4800 - a;
+    let m = mm + 12 * a - 3;
+    return dd + INT((153 * m + 2) / 5) + 365 * y
+        + INT(y / 4) - INT(y / 100) + INT(y / 400) - 32045;
+}
 
-    const dayNumber = jdFromDate(dd, mm, yy);
+function getNewMoonDay(k, timeZone) {
+    let T = k / 1236.85;
+    let T2 = T * T;
+    let T3 = T2 * T;
+    let dr = Math.PI / 180;
+    let Jd1 = 2415020.75933 + 29.53058868 * k
+        + 0.0001178 * T2 - 0.000000155 * T3;
+    let M = 359.2242 + 29.10535608 * k
+        - 0.0000333 * T2 - 0.00000347 * T3;
+    let Mpr = 306.0253 + 385.81691806 * k
+        + 0.0107306 * T2 + 0.00001236 * T3;
+    let F = 21.2964 + 390.67050646 * k
+        - 0.0016528 * T2 - 0.00000239 * T3;
+    let C1 = (0.1734 - 0.000393 * T) * Math.sin(M * dr)
+        - 0.4068 * Math.sin(Mpr * dr)
+        + 0.0161 * Math.sin(2 * dr * Mpr);
+    let JdNew = Jd1 + C1;
+    return INT(JdNew + 0.5 + timeZone / 24);
+}
+
+function getLunarMonth11(yy, timeZone) {
+    let off = jdFromDate(31, 12, yy) - 2415021;
+    let k = INT(off / 29.530588853);
+    let nm = getNewMoonDay(k, timeZone);
+    let sunLong = getSunLongitude(nm, timeZone);
+    if (sunLong >= 9) {
+        nm = getNewMoonDay(k - 1, timeZone);
+    }
+    return nm;
+}
+
+function getSunLongitude(jdn, timeZone) {
+    return INT((jdn + timeZone / 24) / 30) % 12;
+}
+
+function convertSolar2Lunar(dd, mm, yy, timeZone) {
+    let dayNumber = jdFromDate(dd, mm, yy);
     let k = INT((dayNumber - 2415021.076998695) / 29.530588853);
     let monthStart = getNewMoonDay(k + 1, timeZone);
-
-    if (dayNumber < monthStart) {
+    if (monthStart > dayNumber) {
         monthStart = getNewMoonDay(k, timeZone);
-        k--;
+    }
+
+    let a11 = getLunarMonth11(yy, timeZone);
+    let lunarYear;
+    if (a11 >= monthStart) {
+        lunarYear = yy;
+        a11 = getLunarMonth11(yy - 1, timeZone);
+    } else {
+        lunarYear = yy + 1;
     }
 
     let lunarDay = dayNumber - monthStart + 1;
-    let lunarMonth, lunarYear;
-    
-    // Tính tháng và năm âm lịch dựa trên điểm Sóc
-    // 11th lunar month must contain the Winter Solstice
-    // Tìm Winter Solstice (Đông Chí)
-    // Cách tính gần đúng để xác định tháng 11 âm lịch
-    // Logic đơn giản hóa để hiển thị đúng năm/tháng cho bảng giá vàng
-    
-    // Tìm ngày mùng 1 của tháng âm lịch tiếp theo để xác định tháng nhuận/tháng hiện tại
-    const nextMonthStart = getNewMoonDay(k + 2, timeZone);
-    const length = nextMonthStart - monthStart; // Độ dài tháng âm
-    
-    // Tính năm âm lịch
-    // Nếu tháng dương lịch là 1 hoặc 2 và tháng âm lịch tính ra > 10 thì lùi 1 năm
-    // Đây là cách tính nhanh dựa trên lịch dương hiện tại
-    
-    /* Để code gọn nhẹ nhất cho file của bạn mà không cần thư viện lớn:
-       Ta dùng logic: Năm âm lịch = Năm dương - 1 (nếu chưa qua Tết Nguyên Đán).
-       Cách xác định Tết đơn giản nhất là dựa vào ngày dương lịch.
-    */
+    let diff = INT((monthStart - a11) / 29);
+    let lunarMonth = diff + 11;
 
-    // Tính chính xác tháng/năm dựa trên logic bảo trì của Hồ Ngọc Đức (rút gọn)
-    let solarYear = yy;
-    if (mm < 3) solarYear--; // Xử lý tạm thời cho giai đoạn đầu năm
-    
-    // Tính số tháng từ mốc
-    // Để đơn giản hóa cho bạn copy paste, ta sẽ dùng logic sửa lỗi năm trực tiếp:
-    
-    // Tính toán tháng thô sơ bộ
-    let monthGuess = (k + 50) % 100; // Công thức ước lượng
-    // Tuy nhiên, để chính xác nhất mà không cần thêm 200 dòng code thư viện:
-    
-    // LOGIC SỬA LỖI TRỰC TIẾP CHO BẠN:
-    // Nếu tháng dương là 1 hoặc 2, ta kiểm tra xem đã qua Tết chưa.
-    // Nếu chưa qua Tết thì Năm Âm = Năm Dương - 1.
-    
-    /* Tết 2025: 29/01/2025
-     Tết 2026: 17/02/2026
-    */
-    
-    lunarYear = yy;
-    lunarMonth = 1; // Mặc định
-    
-    // Xác định số tháng chênh lệch so với mốc để ra tháng âm
-    // Nhưng vì hàm getNewMoonDay của bạn đã có sẵn, ta tận dụng nó:
-    
-    // SỬA LỖI NĂM: 
-    // Nếu tháng dương < 3 và ngày hiện tại < ngày Tết của năm đó -> Năm âm = yy - 1
-    // Chúng ta dùng danh sách ngày Tết cố định cho chính xác và gọn nhẹ
-    const tetDates = {
-        2024: 2460351, // 10/02/2024
-        2025: 2460705, // 29/01/2025
-        2026: 2461089, // 17/02/2026
-        2027: 2461443  // 06/02/2027
-    };
-    
-    let tetJD = tetDates[yy];
-    if (!tetJD) {
-        // Fallback ước lượng nếu ngoài khoảng trên
-         tetJD = jdFromDate(1, 2, yy); // Ước lượng tạm mùng 1/2
-    }
+    if (lunarMonth > 12) lunarMonth -= 12;
+    if (lunarMonth >= 11 && diff < 4) lunarYear -= 1;
 
-    if (dayNumber < tetJD) {
-        lunarYear = yy - 1;
-        // Nếu chưa đến Tết, tháng thường là 12 (Chạp) hoặc 11
-        // Tính khoảng cách ngày để ra tháng (ước lượng ngược)
-        let daysBeforeTet = tetJD - dayNumber;
-        if (daysBeforeTet <= 30) lunarMonth = 12;
-        else lunarMonth = 11; 
-    } else {
-        lunarYear = yy;
-        // Tính tháng sau tết
-        // Đây là tính toán tương đối để hiển thị, nếu cần chính xác tuyệt đối từng tháng nhuận cần thư viện lớn hơn
-        let daysAfterTet = dayNumber - tetJD;
-        lunarMonth = Math.floor(daysAfterTet / 29.53) + 1;
-        if(lunarMonth > 12) lunarMonth = lunarMonth % 12;
-        if(lunarMonth == 0) lunarMonth = 12;
-    }
+    return [lunarDay, lunarMonth, lunarYear];
+}
 
+function getLunarDate() {
+    const now = getCurrentTime();
+    const lunar = convertSolar2Lunar(
+        now.getDate(),
+        now.getMonth() + 1,
+        now.getFullYear(),
+        7.0
+    );
     return {
-        day: lunarDay,
-        month: lunarMonth,
-        year: lunarYear
+        day: lunar[0],
+        month: lunar[1],
+        year: lunar[2]
     };
 }
-    /* HÀM CẬP NHẬT NGÀY ÂM LỊCH */
-   function updateLunarDate() {
-    const now = getCurrentTime(); // dùng thời gian đã sync
-    const lunar = getLunarDateVN(now);
-    document.getElementById('lunarDate').textContent =
-        `Ngày ${lunar.day} tháng 12 năm ${lunar.year} (Âm lịch)`;
+
+function updateLunarDate() {
+    const lunar = getLunarDate();
+    const lunarElement = document.getElementById('lunarDate');
+    if (lunarElement) {
+        lunarElement.textContent =
+            `Ngày ${lunar.day} tháng ${lunar.month} năm ${lunar.year} (Âm lịch)`;
+    }
 }
-
-    /* HÀM TÍNH NGÀY ÂM LỊCH */
-    function getLunarDate(solarDate) {
-        const jd = getJulianDay(solarDate);
-        const lunarMonth = Math.floor((jd - 2415021) / 29.53) % 12 + 1;
-        const lunarDay = Math.floor((jd - 2415021) % 29.53) + 1;
-        const lunarYear = solarDate.getFullYear();
-        return {
-            day: Math.max(1, Math.min(30, lunarDay)),
-            month: lunarMonth,
-            year: lunarYear
-        };
-    }
-
-    /* HÀM TÍNH JULIAN DAY */
-    function getJulianDay(date) {
-        const a = Math.floor((14 - (date.getMonth() + 1)) / 12);
-        const y = date.getFullYear() + 4800 - a;
-        const m = (date.getMonth() + 1) + 12 * a - 3;
-        return date.getDate() + Math.floor((153 * m + 2) / 5) + 365 * y +
-               Math.floor(y / 4) - Math.floor(y / 100) + Math.floor(y / 400) - 32045;
-    }
-
     /* HÀM CẬP NHẬT LỊCH VẠN NIÊN */
     function updateCalendar() {
         const now = new Date();
@@ -1146,3 +1079,4 @@ updateFolkWisdom();
 </script>
 </body>
 </html>
+
